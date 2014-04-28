@@ -101,11 +101,9 @@ sum li = foldLeft (+) 0 li
 -- 3
 --
 -- prop> sum (map (const 1) x) == length x
-length ::
-  List a
-  -> Int
-length =
-  error "todo"
+length :: List a -> Int
+length Nil = 0 
+length (h :. t) = 1 + length t 
 
 -- | Map the given function on each element of the list.
 --
@@ -115,12 +113,10 @@ length =
 -- prop> headOr x (map (+1) infinity) == 1
 --
 -- prop> map id x == x
-map ::
-  (a -> b)
-  -> List a
-  -> List b
-map =
-  error "todo"
+map :: (a -> b) -> List a -> List b
+map _ Nil = Nil
+map f (h :. t) =
+    f(h) :. map f t 
 
 -- | Return elements satisfying the given predicate.
 --
