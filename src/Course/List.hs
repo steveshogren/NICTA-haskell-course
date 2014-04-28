@@ -128,12 +128,11 @@ map f (h :. t) =
 -- prop> filter (const True) x == x
 --
 -- prop> filter (const False) x == Nil
-filter ::
-  (a -> Bool)
-  -> List a
-  -> List a
-filter =
-  error "todo"
+filter :: (a -> Bool) -> List a -> List a
+filter _ Nil = Nil
+filter f (h :. t) = if f(h) 
+                    then h :. filter f t
+                    else filter f t
 
 -- | Append two lists to a new list.
 --
