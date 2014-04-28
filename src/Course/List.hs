@@ -80,11 +80,8 @@ headOr _ (a :. b) = a
 --
 -- >>> product (1 :. 2 :. 3 :. 4 :. Nil)
 -- 24
-product ::
-  List Int
-  -> Int
-product =
-  error "todo"
+product :: List Int -> Int
+product li = foldLeft (*) 1 li
 
 -- | Sum the elements of the list.
 --
@@ -95,11 +92,8 @@ product =
 -- 10
 --
 -- prop> foldLeft (-) (sum x) x == 0
-sum ::
-  List Int
-  -> Int
-sum =
-  error "todo"
+sum :: List Int -> Int
+sum li = foldLeft (+) 0 li
 
 -- | Return the length of the list.
 --
