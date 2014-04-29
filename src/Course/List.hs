@@ -130,9 +130,9 @@ map f (h :. t) =
 -- prop> filter (const False) x == Nil
 filter :: (a -> Bool) -> List a -> List a
 filter _ Nil = Nil
-filter f (h :. t) = if f(h) 
-                    then h :. filter f t
-                    else filter f t
+filter f (h :. t) 
+   | f(h) = h :. filter f t
+   | otherwise = filter f t
 
 -- | Append two lists to a new list.
 --
@@ -146,10 +146,7 @@ filter f (h :. t) = if f(h)
 -- prop> (x ++ y) ++ z == x ++ (y ++ z)
 --
 -- prop> x ++ Nil == x
-(++) ::
-  List a
-  -> List a
-  -> List a
+(++) :: List a -> List a -> List a
 (++) =
   error "todo"
 
