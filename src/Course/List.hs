@@ -205,11 +205,14 @@ flatMap f l =
 --
 -- >>> seqOptional (Empty :. map Full infinity)
 -- Empty
-seqOptional ::
-  List (Optional a)
-  -> Optional (List a)
-seqOptional =
-  error "todo"
+seqOptional :: List (Optional a) -> Optional (List a)
+seqOptional Nil = Full Nil 
+seqOptional (Empty :. Nil) = Empty
+seqOptional (Full x :. t) = 
+  let r = seqOptional t
+  in case r of
+       Empty -> Empty
+       Full ts -> Full (x :. ts)
 
 -- | Find the first element in the list matching the predicate.
 --
