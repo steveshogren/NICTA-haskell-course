@@ -249,11 +249,11 @@ find f (h :. t)
 --
 -- >>> lengthGT4 infinity
 -- True
-lengthGT4 ::
-  List a
-  -> Bool
-lengthGT4 =
-  error "todo"
+lengthGT4 :: List a -> Bool
+lengthGT4 Nil = False
+lengthGT4 l 
+  | length l > 4 = True
+  | otherwise    = False
 
 -- | Reverse a list.
 --
