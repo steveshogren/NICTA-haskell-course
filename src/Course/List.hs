@@ -70,7 +70,7 @@ foldLeft f b (h :. t) = let b' = f b h in b' `seq` foldLeft f b' t
 -- prop> x `headOr` Nil == x
 headOr :: a -> List a -> a
 headOr a Nil = a
-headOr _ (a :. b) = a
+headOr _ (a :. _) = a
   
 
 -- | The product of the elements of a list.
@@ -147,9 +147,9 @@ filter f (h :. t)
 --
 -- prop> x ++ Nil == x
 (++) :: List a -> List a -> List a
+(++) Nil        other = other 
 (++) (h :. Nil) other = h :. other 
-(++) (h :. t) other = 
-    h :. (t ++ other) 
+(++) (h :. t)   other = h :. (t ++ other) 
 
 infixr 5 ++
 
@@ -207,7 +207,7 @@ flatMap f l =
 -- Empty
 seqOptional :: List (Optional a) -> Optional (List a)
 seqOptional Nil = Full Nil 
-seqOptional (Empty :. Nil) = Empty
+seqOptional (Empty :. _) = Empty
 seqOptional (Full x :. t) = 
   let r = seqOptional t
   in case r of
@@ -263,11 +263,10 @@ lengthGT4 l
 -- prop> let types = x :: List Int in reverse x ++ reverse y == reverse (y ++ x)
 --
 -- prop> let types = x :: Int in reverse (x :. Nil) == x :. Nil
-reverse ::
-  List a
-  -> List a
-reverse =
-  error "todo"
+reverse :: List a -> List a
+reverse Nil = Nil
+reverse (h :. t) = 
+    (reverse(t)) ++ (h :. Nil)  
 
 -- | Produce an infinite `List` that seeds with the given value at its head,
 -- then runs the given function for subsequent elements
