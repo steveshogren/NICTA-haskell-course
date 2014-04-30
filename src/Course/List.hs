@@ -251,9 +251,8 @@ find f (h :. t)
 -- True
 lengthGT4 :: List a -> Bool
 lengthGT4 Nil = False
-lengthGT4 l 
-  | length l > 4 = True
-  | otherwise    = False
+lengthGT4 (_ :. _ :. _ :. _ :. _) = True
+lengthGT4 _ = False
 
 -- | Reverse a list.
 --
