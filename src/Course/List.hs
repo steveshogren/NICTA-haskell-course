@@ -178,12 +178,10 @@ flatten (h :. t) =
 -- prop> headOr x (flatMap id (y :. infinity :. Nil)) == headOr 0 y
 --
 -- prop> flatMap id (x :: List (List Int)) == flatten x
-flatMap ::
-  (a -> List b)
-  -> List a
-  -> List b
-flatMap =
-  error "todo"
+flatMap :: (a -> List b) -> List a -> List b
+flatMap _ Nil = Nil
+flatMap f l = 
+  flatten(map f l)
 
 -- | Convert a list of optional values to an optional list of values.
 --
