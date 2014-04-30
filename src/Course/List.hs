@@ -103,7 +103,7 @@ sum li = foldLeft (+) 0 li
 -- prop> sum (map (const 1) x) == length x
 length :: List a -> Int
 length Nil = 0 
-length (h :. t) = 1 + length t 
+length (_ :. t) = 1 + length t 
 
 -- | Map the given function on each element of the list.
 --
@@ -147,8 +147,9 @@ filter f (h :. t)
 --
 -- prop> x ++ Nil == x
 (++) :: List a -> List a -> List a
-(++) =
-  error "todo"
+(++) (h :. Nil) other = h :. other 
+(++) (h :. t) other = 
+    h :. (t ++ other) 
 
 infixr 5 ++
 
