@@ -11,10 +11,7 @@ import qualified Prelude as P
 
 class Functor f where
   -- Pronounced, eff-map.
-  (<$>) ::
-    (a -> b)
-    -> f a
-    -> f b
+  (<$>) :: (a -> b) -> f a -> f b
 
 infixl 4 <$>
 
@@ -28,8 +25,7 @@ infixl 4 <$>
 -- >>> (+1) <$> Id 2
 -- Id 3
 instance Functor Id where
-  (<$>) =
-    error "todo"
+  (<$>) f (Id a) = Id (f a)
 
 -- | Maps a function on the List functor.
 --
@@ -39,8 +35,8 @@ instance Functor Id where
 -- >>> (+1) <$> (1 :. 2 :. 3 :. Nil)
 -- [2,3,4]
 instance Functor List where
-  (<$>) =
-    error "todo"
+  (<$>) f l =
+    map f l
 
 -- | Maps a function on the Optional functor.
 --
@@ -50,8 +46,8 @@ instance Functor List where
 -- >>> (+1) <$> Full 2
 -- Full 3
 instance Functor Optional where
-  (<$>) =
-    error "todo"
+  (<$>) f Empty = Empty
+  (<$>) f (Full x) = Full(f x) 
 
 -- | Maps a function on the reader ((->) t) functor.
 --

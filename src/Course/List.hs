@@ -288,8 +288,8 @@ produce f seed = seed :. produce  f(f seed)
 --
 -- prop> let types = x :: Int in notReverse (x :. Nil) == x :. Nil
 notReverse :: List a -> List a 
-notReverse =
-  error "todo"
+notReverse Nil = Nil
+notReverse a = reverse a
 
 hlist ::
   List a
