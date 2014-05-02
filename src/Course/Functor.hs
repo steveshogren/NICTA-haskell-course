@@ -79,12 +79,8 @@ instance Functor ((->) t) where
 --
 -- >>> void (+10) 5
 -- ()
-void ::
-  Functor f =>
-  f a
-  -> f ()
-void =
-  error "todo"
+void :: Functor f => f a -> f ()
+void fa = () <$ fa
 
 -----------------------
 -- SUPPORT LIBRARIES --
