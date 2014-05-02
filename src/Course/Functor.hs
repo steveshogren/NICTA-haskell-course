@@ -35,8 +35,7 @@ instance Functor Id where
 -- >>> (+1) <$> (1 :. 2 :. 3 :. Nil)
 -- [2,3,4]
 instance Functor List where
-  (<$>) f l =
-    map f l
+  (<$>) f l = map f l
 
 -- | Maps a function on the Optional functor.
 --
@@ -46,7 +45,7 @@ instance Functor List where
 -- >>> (+1) <$> Full 2
 -- Full 3
 instance Functor Optional where
-  (<$>) f Empty = Empty
+  (<$>) _ Empty = Empty
   (<$>) f (Full x) = Full(f x) 
 
 -- | Maps a function on the reader ((->) t) functor.
@@ -54,8 +53,7 @@ instance Functor Optional where
 -- >>> ((+1) <$> (*2)) 8
 -- 17
 instance Functor ((->) t) where
-  (<$>) =
-    error "todo"
+  (<$>) f t = f . t 
 
 -- | Anonymous map. Maps a constant value on a functor.
 --
@@ -65,13 +63,8 @@ instance Functor ((->) t) where
 -- prop> x <$ [a,b,c] == [x,x,x]
 --
 -- prop> x <$ Full q == Full x
-(<$) ::
-  Functor f =>
-  a
-  -> f b
-  -> f a
-(<$) =
-  error "todo"
+(<$) :: Functor f => a -> f b -> f a
+(<$) a fb = (\x -> a) <$> fb
 
 -- | Anonymous map producing unit value.
 --
