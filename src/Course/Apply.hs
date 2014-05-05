@@ -12,10 +12,7 @@ import qualified Prelude as P
 
 class Functor f => Apply f where
   -- Pronounced apply.
-  (<*>) ::
-    f (a -> b)
-    -> f a
-    -> f b
+  (<*>) :: f (a -> b) -> f a -> f b
 
 infixl 4 <*>
 
@@ -24,8 +21,7 @@ infixl 4 <*>
 -- >>> Id (+10) <*> Id 8
 -- Id 18
 instance Apply Id where
-  (<*>) =
-    error "todo"
+  Id f <*> Id a = Id (f a)
 
 -- | Implement @Apply@ instance for @List@.
 --
