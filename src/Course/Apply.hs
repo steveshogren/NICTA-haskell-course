@@ -42,8 +42,8 @@ instance Apply List where
 -- >>> Full (+8) <*> Empty
 -- Empty
 instance Apply Optional where
-  (<*>) =
-    error "todo"
+  Empty <*> _ = Empty
+  Full f <*> a = f <$> a
 
 -- | Implement @Apply@ instance for reader.
 --
