@@ -134,16 +134,8 @@ lift3 f a b c = f <$> a <*> b <*> c
 --
 -- >>> lift4 (\a b c d -> a + b + c + d) length sum product (sum . filter even) (listh [4,5,6])
 -- 148
-lift4 ::
-  Apply f =>
-  (a -> b -> c -> d -> e)
-  -> f a
-  -> f b
-  -> f c
-  -> f d
-  -> f e
-lift4 =
-  error "todo"
+lift4 :: Apply f => (a -> b -> c -> d -> e) -> f a -> f b -> f c -> f d -> f e
+lift4 f a b c d = f <$> a <*> b <*> c <*> d
 
 -- | Sequence, discarding the value of the first argument.
 -- Pronounced, right apply.
