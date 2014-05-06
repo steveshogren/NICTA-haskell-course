@@ -62,8 +62,7 @@ instance Apply Optional where
 -- >>> ((*) <*> (+2)) 3
 -- 15
 instance Apply ((->) t) where
-  (<*>) =
-    error "todo"
+  f <*> g = \x -> f x (g x)
 
 -- | Apply a binary function in the environment.
 --
@@ -155,13 +154,8 @@ lift4 f a b c d = f <$> a <*> b <*> c <*> d
 -- prop> [a,b,c] *> [x,y,z] == [x,y,z,x,y,z,x,y,z]
 --
 -- prop> Full x *> Full y == Full y
-(*>) ::
-  Apply f =>
-  f a
-  -> f b
-  -> f b
-(*>) =
-  error "todo"
+(*>) :: Apply f => f a -> f b -> f b
+(*>) = lift2 (const id)
 
 -- | Sequence, discarding the value of the second argument.
 -- Pronounced, left apply.
