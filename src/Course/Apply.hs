@@ -29,7 +29,7 @@ instance Apply Id where
 -- [2,3,4,2,4,6]
 instance Apply List where
   Nil <*> l = Nil
-  f :. r <*> l = (r <*> l) ++ (f <$> l)
+  f :. r <*> l = (f <$> l) ++ (r <*> l) 
 
 -- | Implement @Apply@ instance for @Optional@.
 --
@@ -84,14 +84,8 @@ instance Apply ((->) t) where
 --
 -- >>> lift2 (+) length sum (listh [4,5,6])
 -- 18
-lift2 ::
-  Apply f =>
-  (a -> b -> c)
-  -> f a
-  -> f b
-  -> f c
-lift2 =
-  error "todo"
+lift2 :: Apply f => (a -> b -> c) -> f a -> f b -> f c
+lift2 f a b = f <$> a <*> b
 
 -- | Apply a ternary function in the Monad environment.
 --
