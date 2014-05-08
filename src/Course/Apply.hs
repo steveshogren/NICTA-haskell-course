@@ -175,13 +175,8 @@ lift4 f a b c d = f <$> a <*> b <*> c <*> d
 -- prop> [x,y,z] <* [a,b,c] == [x,x,x,y,y,y,z,z,z]
 --
 -- prop> Full x <* Full y == Full x
-(<*) ::
-  Apply f =>
-  f b
-  -> f a
-  -> f b
-(<*) =
-  error "todo"
+(<*) :: Apply f => f b -> f a -> f b
+l <* r = lift2 (const id) r l
 
 -----------------------
 -- SUPPORT LIBRARIES --
