@@ -64,7 +64,7 @@ instance Functor ((->) t) where
 --
 -- prop> x <$ Full q == Full x
 (<$) :: Functor f => a -> f b -> f a
-(<$) a fb = (\x -> a) <$> fb
+(<$) a fb = (\_ -> a) <$> fb
 
 -- | Anonymous map producing unit value.
 --

@@ -28,7 +28,7 @@ instance Apply Id where
 -- >>> (+1) :. (*2) :. Nil <*> 1 :. 2 :. 3 :. Nil
 -- [2,3,4,2,4,6]
 instance Apply List where
-  Nil <*> l = Nil
+  Nil <*> _ = Nil
   f :. r <*> l = (f <$> l) ++ (r <*> l) 
 
 -- | Implement @Apply@ instance for @Optional@.
