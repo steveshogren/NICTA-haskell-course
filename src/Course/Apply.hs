@@ -176,7 +176,7 @@ lift4 f a b c d = f <$> a <*> b <*> c <*> d
 --
 -- prop> Full x <* Full y == Full x
 (<*) :: Apply f => f b -> f a -> f b
-l <* r = lift2 (const id) r l
+(<*) = lift2 const 
 
 -----------------------
 -- SUPPORT LIBRARIES --
