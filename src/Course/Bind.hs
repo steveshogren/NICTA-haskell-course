@@ -57,13 +57,9 @@ infixr 1 =<<
 --
 -- >>> ((*) <*> (+2)) 3
 -- 15
-(<*>) ::
-  Bind f =>
-  f (a -> b)
-  -> f a
-  -> f b
-(<*>) =
-  error "todo"
+(<*>) :: Bind f => f (a -> b) -> f a -> f b
+(<*>) = (<*>) 
+  
 
 infixl 4 <*>
 
@@ -72,8 +68,7 @@ infixl 4 <*>
 -- >>> (\x -> Id(x+1)) =<< Id 2
 -- Id 3
 instance Bind Id where
-  (=<<) =
-    error "todo"
+  f =<< Id a = f a
 
 -- | Binds a function on a List.
 --
