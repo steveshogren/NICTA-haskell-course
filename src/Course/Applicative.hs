@@ -76,8 +76,7 @@ instance Applicative ((->) t) where
 -- >>> sequence ((*10) :. (+2) :. Nil) 6
 -- [60,8]
 sequence :: Applicative f => List (f a) -> f (List a)
-sequence =
-  error "todo"
+sequence = foldRight (lift2 (:.)) (pure Nil)
 
 -- | Replicate an effect a given number of times.
 --
@@ -96,8 +95,8 @@ sequence =
 -- >>> replicateA 3 ['a', 'b', 'c']
 -- ["aaa","aab","aac","aba","abb","abc","aca","acb","acc","baa","bab","bac","bba","bbb","bbc","bca","bcb","bcc","caa","cab","cac","cba","cbb","cbc","cca","ccb","ccc"]
 replicateA :: Applicative f => Int -> f a -> f (List a)
-replicateA =
-  error "todo"
+replicateA n =
+  sequence . replicate n
 
 -- | Filter a list with a predicate that produces an effect.
 --
@@ -116,8 +115,8 @@ replicateA =
 -- >>> filtering (>) (4 :. 5 :. 6 :. 7 :. 8 :. 9 :. 10 :. 11 :. 12 :. Nil) 8
 -- [9,10,11,12]
 filtering :: Applicative f => (a -> f Bool) -> List a -> f (List a)
-filtering =
-  error "todo"
+filtering p =
+  foldRight (\a -> lift2 (\b -> if b then (a:.) else id) (p a)) (pure Nil)
 
 -----------------------
 -- SUPPORT LIBRARIES --
