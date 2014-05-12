@@ -62,7 +62,7 @@ instance Apply Optional where
 -- >>> ((*) <*> (+2)) 3
 -- 15
 instance Apply ((->) t) where
-  f <*> g = \x -> f x (g x)
+  f <*> g = \x -> f x $ g x
 
 -- | Apply a binary function in the environment.
 --
