@@ -113,13 +113,8 @@ join = (=<<) id
 --
 -- >>> ((+10) >>= (*)) 7
 -- 119
-(>>=) ::
-  Bind f =>
-  f a
-  -> (a -> f b)
-  -> f b
-(>>=) =
-  error "todo"
+(>>=) :: Bind f => f a -> (a -> f b) -> f b
+f >>= g =  join(g <$> f)
 
 infixl 1 >>=
 
@@ -128,14 +123,10 @@ infixl 1 >>=
 --
 -- >>> ((\n -> n :. n :. Nil) <=< (\n -> n+1 :. n+2 :. Nil)) 1
 -- [2,2,3,3]
-(<=<) ::
-  Bind f =>
-  (b -> f c)
-  -> (a -> f b)
-  -> a
-  -> f c
-(<=<) =
-  error "todo"
+(<=<) :: Bind f => (b -> f c) -> (a -> f b) -> a -> f c
+f <=< g = 
+   let d = (=<<)
+   in \x -> f `d` g x
 
 infixr 1 <=<
 
