@@ -290,58 +290,39 @@ notReverse :: List a -> List a
 notReverse Nil = Nil
 notReverse a = reverse a
 
-hlist ::
-  List a
-  -> [a]
+hlist :: List a -> [a]
 hlist =
   foldRight (:) []
 
-listh ::
-  [a]
-  -> List a
+listh :: [a] -> List a
 listh =
   P.foldr (:.) Nil
 
-putStr ::
-  Chars
-  -> IO ()
+putStr :: Chars -> IO ()
 putStr =
   P.putStr . hlist
 
-putStrLn ::
-  Chars
-  -> IO ()
+putStrLn :: Chars -> IO ()
 putStrLn =
   P.putStrLn . hlist
 
-readFile ::
-  Filename
-  -> IO Chars
+readFile :: Filename -> IO Chars
 readFile =
   P.fmap listh . P.readFile . hlist
 
-writeFile ::
-  Filename
-  -> Chars
-  -> IO ()
+writeFile :: Filename -> Chars -> IO ()
 writeFile n s =
   P.writeFile (hlist n) (hlist s)
 
-getLine ::
-  IO Chars
+getLine :: IO Chars
 getLine =
   P.fmap listh P.getLine
 
-getArgs ::
-  IO (List Chars)
+getArgs :: IO (List Chars)
 getArgs =
   P.fmap (listh . P.fmap listh) E.getArgs
 
-isPrefixOf ::
-  Eq a =>
-  List a
-  -> List a
-  -> Bool
+isPrefixOf :: Eq a => List a -> List a -> Bool
 isPrefixOf Nil _ =
   True
 isPrefixOf _  Nil =
@@ -349,32 +330,21 @@ isPrefixOf _  Nil =
 isPrefixOf (x:.xs) (y:.ys) =
   x == y && isPrefixOf xs ys
 
-isEmpty ::
-  List a
-  -> Bool
+isEmpty :: List a -> Bool
 isEmpty Nil =
   True
 isEmpty (_:._) =
   False
 
-span ::
-  (a -> Bool)
-  -> List a
-  -> (List a, List a)
+span :: (a -> Bool) -> List a -> (List a, List a)
 span p x =
   (takeWhile p x, dropWhile p x)
 
-break ::
-  (a -> Bool)
-  -> List a
-  -> (List a, List a)
+break :: (a -> Bool) -> List a -> (List a, List a)
 break p =
   span (not . p)
 
-dropWhile ::
-  (a -> Bool)
-  -> List a
-  -> List a
+dropWhile :: (a -> Bool) -> List a -> List a
 dropWhile _ Nil =
   Nil
 dropWhile p xs@(x:.xs') =
@@ -384,10 +354,7 @@ dropWhile p xs@(x:.xs') =
     else
       xs
 
-takeWhile ::
-  (a -> Bool)
-  -> List a
-  -> List a
+takeWhile :: (a -> Bool) -> List a -> List a
 takeWhile _ Nil =
   Nil
 takeWhile p (x:.xs) =
@@ -397,60 +364,39 @@ takeWhile p (x:.xs) =
     else
       Nil
 
-zip ::
-  List a
-  -> List b
-  -> List (a, b)
+zip :: List a -> List b -> List (a, b)
 zip =
   zipWith (,)
 
-zipWith ::
-  (a -> b -> c)
-  -> List a
-  -> List b
-  -> List c
+zipWith :: (a -> b -> c) -> List a -> List b -> List c
 zipWith f (a:.as) (b:.bs) =
   f a b :. zipWith f as bs
 zipWith _ _  _ =
   Nil
 
-unfoldr ::
-  (a -> Optional (b, a))
-  -> a
-  -> List b
+unfoldr :: (a -> Optional (b, a)) -> a -> List b
 unfoldr f b  =
   case f b of
     Full (a, z) -> a :. unfoldr f z
     Empty -> Nil
 
-lines ::
-  Chars
-  -> List Chars
+lines :: Chars -> List Chars
 lines =
   listh . P.fmap listh . P.lines . hlist
 
-unlines ::
-  List Chars
-  -> Chars
+unlines :: List Chars -> Chars
 unlines =
   listh . P.unlines . hlist . map hlist
 
-words ::
-  Chars
-  -> List Chars
+words :: Chars -> List Chars
 words =
   listh . P.fmap listh . P.words . hlist
 
-unwords ::
-  List Chars
-  -> Chars
+unwords :: List Chars -> Chars
 unwords =
   listh . P.unwords . hlist . map hlist
 
-listOptional ::
-  (a -> Optional b)
-  -> List a
-  -> List b
+listOptional :: (a -> Optional b) -> List a -> List b
 listOptional _ Nil =
   Nil
 listOptional f (h:.t) =
