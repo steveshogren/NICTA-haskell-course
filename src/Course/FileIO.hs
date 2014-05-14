@@ -59,32 +59,30 @@ the contents of c
 
 -}
 
+
+getFirst :: List a -> a 
+getFirst (filename :. _) = filename
+getFirst _ = error "Must enter a filename"
+
 -- /Tip:/ use @getArgs@ and @run@
-main ::
-  IO ()
+main :: IO ()
 main =
-  error "todo"
+  getArgs >>= \x -> run $ getFirst x
 
 type FilePath =
   Chars
 
 -- /Tip:/ Use @getFiles@ and @printFiles@.
-run ::
-  Chars
-  -> IO ()
-run =
-  error "todo"
+run :: FilePath -> IO ()
+run filename =
+  readFile filename >>= \x -> putStrLn x
 
-getFiles ::
-  List FilePath
-  -> IO (List (FilePath, Chars))
+getFiles :: List FilePath -> IO (List (FilePath, Chars))
 getFiles =
   error "todo"
 
-getFile ::
-  FilePath
-  -> IO (FilePath, Chars)
-getFile =
+getFile :: FilePath -> IO (FilePath, Chars)
+getFile path =
   error "todo"
 
 printFiles ::
