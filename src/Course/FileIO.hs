@@ -67,7 +67,7 @@ getFirst _ = error "Must enter a filename"
 -- /Tip:/ use @getArgs@ and @run@
 main :: IO ()
 main =
-  getArgs >>= \x -> run $ getFirst x
+  getArgs >>= (run . getFirst)
 
 type FilePath =
   Chars
@@ -75,7 +75,7 @@ type FilePath =
 -- /Tip:/ Use @getFiles@ and @printFiles@.
 run :: FilePath -> IO ()
 run filename =
-  readFile filename >>= \x -> putStrLn x
+  readFile filename >>= putStrLn 
 
 getFiles :: List FilePath -> IO (List (FilePath, Chars))
 getFiles =
