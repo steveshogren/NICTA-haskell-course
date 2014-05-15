@@ -75,26 +75,24 @@ type FilePath =
 -- /Tip:/ Use @getFiles@ and @printFiles@.
 run :: FilePath -> IO ()
 run filename =
-  readFile filename >>= putStrLn 
+  do 
+    content <- readFile filename 
+    files <- getFiles (lines content)
+    printFiles files
 
 getFiles :: List FilePath -> IO (List (FilePath, Chars))
 getFiles =
-  error "todo"
+  sequence . (<$>) getFile
 
 getFile :: FilePath -> IO (FilePath, Chars)
-getFile path =
-  error "todo"
+getFile = 
+  lift2 (<$>) (,) readFile
 
-printFiles ::
-  List (FilePath, Chars)
-  -> IO ()
-printFiles =
-  error "todo"
+printFiles :: List (FilePath, Chars) -> IO ()
+printFiles = void . sequence . (<$>)  (uncurry printFile)
 
-printFile ::
-  FilePath
-  -> Chars
-  -> IO ()
-printFile =
-  error "todo"
+printFile :: FilePath -> Chars -> IO ()
+printFile name content =
+  putStrLn ("==============" ++ name) >> 
+  putStrLn content
 
