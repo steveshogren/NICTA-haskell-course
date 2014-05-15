@@ -90,7 +90,11 @@ getFile path =
   lift2 (<$>) (,) readFile path
 
 printFiles :: List (FilePath, Chars) -> IO ()
-printFiles = void . sequence . (<$>)  (uncurry printFile)
+printFiles files = 
+  -- uncurry makes the type match the expected (a, b)
+  let printNew = (<$>) (uncurry printFile) 
+      printed = (void . sequence . printNew) files 
+  in printed
 
 printFile :: FilePath -> Chars -> IO ()
 printFile name content =
