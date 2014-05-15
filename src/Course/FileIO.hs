@@ -81,12 +81,13 @@ run filename =
     printFiles files
 
 getFiles :: List FilePath -> IO (List (FilePath, Chars))
-getFiles =
-  sequence . (<$>) getFile
+getFiles paths =
+  let contents = getFile <$> paths
+  in sequence contents
 
 getFile :: FilePath -> IO (FilePath, Chars)
-getFile = 
-  lift2 (<$>) (,) readFile
+getFile path = 
+  lift2 (<$>) (,) readFile path
 
 printFiles :: List (FilePath, Chars) -> IO ()
 printFiles = void . sequence . (<$>)  (uncurry printFile)
