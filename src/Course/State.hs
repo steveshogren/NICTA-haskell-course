@@ -39,8 +39,10 @@ instance Functor (State s) where
 -- >>> runState (pure (+1) <*> pure 0) 0
 -- (1,0)
 instance Apply (State s) where
-  (<*>) =
-    error "todo"
+  State f <*> State a =
+    State (\s -> let (g, t) = f s
+                     (z, u) = a t
+                     in (g z, u)) 
 
 -- | Implement the `Applicative` instance for `State s`.
 -- >>> runState (pure 2) 0
