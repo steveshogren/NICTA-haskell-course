@@ -48,8 +48,7 @@ instance Apply (State s) where
 -- >>> runState (pure 2) 0
 -- (2,0)
 instance Applicative (State s) where
-  pure State(f) a =
-    (f, a)
+  pure f = State (\s -> (f, s))
 
 -- | Implement the `Bind` instance for `State s`.
 -- >>> runState ((const $ put 2) =<< put 1) 0
@@ -93,11 +92,8 @@ get =
 --
 -- >>> runState (put 1) 0
 -- ((),1)
-put ::
-  s
-  -> State s ()
-put =
-  error "todo"
+put :: s -> State s ()
+put = State . const . (\s ->  ((), s))
 
 -- | Find the first element in a `List` that satisfies a given predicate.
 -- It is possible that no element is found, hence an `Optional` result.
