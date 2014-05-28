@@ -64,8 +64,7 @@ instance Monad (State s) where
 --
 -- prop> \(Fun _ f) -> exec (State f) s == snd (runState (State f) s)
 exec :: State s a -> s -> s
-exec =
-  error "todo"
+exec (State s) = snd . s
 
 -- | Run the `State` seeded with `s` and retrieve the resulting value.
 --
