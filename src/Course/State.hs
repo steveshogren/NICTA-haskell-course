@@ -55,8 +55,9 @@ instance Applicative (State s) where
 -- >>> runState ((const $ put 2) =<< put 1) 0
 -- ((),2)
 instance Bind (State s) where
-  (=<<) =
-    error "todo"
+  f =<< State a = 
+--    State (f a)
+     error "todo"
 
 instance Monad (State s) where
 
@@ -87,12 +88,16 @@ eval =
 get :: State s s
 get = State (\s -> (s, s))  
 
+(^) :: (a -> b) -> (b -> c) -> a -> c
+f ^ a = a . f 
+
 -- | A `State` where the resulting state is seeded with the given value.
 --
 -- >>> runState (put 1) 0
 -- ((),1)
 put :: s -> State s ()
-put = State . const . (\s ->  ((), s))
+put = (\s ->  ((), s)) ^ const ^ State
+
 
 -- | Find the first element in a `List` that satisfies a given predicate.
 -- It is possible that no element is found, hence an `Optional` result.
