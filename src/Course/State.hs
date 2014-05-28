@@ -33,7 +33,8 @@ newtype State s a =
 -- >>> runState ((+1) <$> pure 0) 0
 -- (1,0)
 instance Functor (State s) where
-  f <$> State k = State (\s -> let (a, t) = k s in (f a, t)) 
+  f <$> State k = 
+     State (\s -> let (a, t) = k s in (f a, t)) 
 
 -- | Implement the `Apply` instance for `State s`.
 -- >>> runState (pure (+1) <*> pure 0) 0
@@ -83,10 +84,8 @@ eval =
 --
 -- >>> runState get 0
 -- (0,0)
-get ::
-  State s s
-get =
-  error "todo"
+get :: State s s
+get = State (\s -> (s, s))  
 
 -- | A `State` where the resulting state is seeded with the given value.
 --
