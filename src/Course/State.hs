@@ -56,18 +56,14 @@ instance Applicative (State s) where
 -- ((),2)
 instance Bind (State s) where
   f =<< State a = 
---    State (f a)
-     error "todo"
+    State (\s -> let (z, y) = a s in runState (f z) y)
 
 instance Monad (State s) where
 
 -- | Run the `State` seeded with `s` and retrieve the resulting state.
 --
 -- prop> \(Fun _ f) -> exec (State f) s == snd (runState (State f) s)
-exec ::
-  State s a
-  -> s
-  -> s
+exec :: State s a -> s -> s
 exec =
   error "todo"
 
