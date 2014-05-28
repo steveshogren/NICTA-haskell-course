@@ -69,12 +69,8 @@ exec (State s) = snd . s
 -- | Run the `State` seeded with `s` and retrieve the resulting value.
 --
 -- prop> \(Fun _ f) -> eval (State f) s == fst (runState (State f) s)
-eval ::
-  State s a
-  -> s
-  -> a
-eval =
-  error "todo"
+eval :: State s a -> s -> a
+eval (State s) = fst . s
 
 -- | A `State` where the state also distributes into the produced value.
 --
