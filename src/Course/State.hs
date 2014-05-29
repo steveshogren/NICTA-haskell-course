@@ -99,18 +99,15 @@ put = (\s ->  ((), s)) ^ const ^ State
 --   find ::  (a ->   Bool) -> List a ->    Optional a
 --   findM :: (a -> f Bool) -> List a -> f (Optional a)
 --
--- >>> let p x = (\s -> (const $ pure (x == 'c')) =<< put (1+s)) =<< get in runState (findM p $ listh ['a'..'h']) 0
+-- >>> let p x = (\s -> (const $ pure (x == 'c')) =<< put (1+s)) =<< get in runState (findM p $ listh ['a'..'h']) 0 
 -- (Full 'c',3)
 --
 -- >>> let p x = (\s -> (const $ pure (x == 'i')) =<< put (1+s)) =<< get in runState (findM p $ listh ['a'..'h']) 0
 -- (Empty,8)
-findM ::
-  Monad f =>
-  (a -> f Bool)
-  -> List a
-  -> f (Optional a)
-findM =
-  error "todo"
+findM :: Monad f => (a -> f Bool) -> List a -> f (Optional a)
+findM _ Nil = pure Empty
+findM p (h :. t) = (\s -> if s then pure (Full h) else findM p t) =<< p h
+--findM = error "todo"
 
 -- | Find the first element in a `List` that repeats.
 -- It is possible that no element repeats, hence an `Optional` result.
