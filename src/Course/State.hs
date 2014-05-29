@@ -107,8 +107,11 @@ put = (\s ->  ((), s)) ^ const ^ State
 findM :: Monad f => (a -> f Bool) -> List a -> f (Optional a)
 findM _ Nil = pure Empty
 findM p (h :. t) = (\s -> if s then pure (Full h) else findM p t) =<< p h
---findM = error "todo"
 
+-- Data.Set -> member
+-- Data.Set -> notMember
+-- Data.Set -> empty
+-- Data.Set -> insert
 -- | Find the first element in a `List` that repeats.
 -- It is possible that no element repeats, hence an `Optional` result.
 --
@@ -116,12 +119,8 @@ findM p (h :. t) = (\s -> if s then pure (Full h) else findM p t) =<< p h
 --
 -- prop> case firstRepeat xs of Empty -> let xs' = hlist xs in nub xs' == xs'; Full x -> length (filter (== x) xs) > 1
 -- prop> case firstRepeat xs of Empty -> True; Full x -> let (l, (rx :. rs)) = span (/= x) xs in let (l2, r2) = span (/= x) rs in let l3 = hlist (l ++ (rx :. Nil) ++ l2) in nub l3 == l3
-firstRepeat ::
-  Ord a =>
-  List a
-  -> Optional a
-firstRepeat =
-  error "todo"
+firstRepeat :: Ord a => List a -> Optional a
+firstRepeat l = eval () S.empty 
 
 -- | Remove all duplicate elements in a `List`.
 -- /Tip:/ Use `filtering` and `State` with a @Data.Set#Set@.
