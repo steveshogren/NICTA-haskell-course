@@ -120,7 +120,7 @@ findM p (h :. t) = (\s -> if s then pure (Full h) else findM p t) =<< p h
 -- prop> case firstRepeat xs of Empty -> let xs' = hlist xs in nub xs' == xs'; Full x -> length (filter (== x) xs) > 1
 -- prop> case firstRepeat xs of Empty -> True; Full x -> let (l, (rx :. rs)) = span (/= x) xs in let (l2, r2) = span (/= x) rs in let l3 = hlist (l ++ (rx :. Nil) ++ l2) in nub l3 == l3
 firstRepeat :: Ord a => List a -> Optional a
-firstRepeat l = eval () S.empty 
+firstRepeat l = eval (findM (\a -> State(S.member a &&& S.insert a)) l) S.empty 
 
 -- | Remove all duplicate elements in a `List`.
 -- /Tip:/ Use `filtering` and `State` with a @Data.Set#Set@.
